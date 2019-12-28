@@ -210,6 +210,12 @@ def _extract_link(article):
 def _extract_post_url(article):
     query_params = ('story_fbid', 'id')
 
+def _find_and_search(article, selector, pattern, cast=str):
+  container = article.find(selector, first=True)
+  if container is not None:
+    match = pattern.search(container.html)
+    return match and cast(match.groups()[0])    
+    
     elements = article.find('header a')
     for element in elements:
         href = element.attrs.get('href', '')
